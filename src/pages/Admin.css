@@ -1,0 +1,133 @@
+/* AdminPanel.css dan keyin import qilinadi. Rangni o'zingizning accent rangingizga almashtiring. */
+.ap-layout {
+  --b-accent: #6d5dfc;
+  --b-accent-soft: rgba(109, 93, 252, 0.1);
+  --b-line: #e4e6ee;
+  --b-danger: #d64545;
+  --b-muted: #6b7084;
+}
+
+.ap-errors {
+  background: #fff4f2;
+  border: 1px solid #f3c4bd;
+  color: #8f2a1d;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+}
+.ap-errors ul { margin: 8px 0 0; padding-left: 18px; }
+
+.ap-test-id input { width: 100%; margin: 6px 0; }
+
+.ap-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.ap-blocks-head { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.ap-paste { display: grid; gap: 10px; padding: 12px; border: 1px dashed var(--b-accent); border-radius: 12px; background: var(--b-accent-soft); }
+
+/* ---- passage blocks ---- */
+.ap-block {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  gap: 10px;
+  align-items: start;
+  padding: 10px;
+  border: 1px solid var(--b-line);
+  border-radius: 12px;
+  background: #fff;
+}
+.ap-block.heading { background: #f7f7fc; border-left: 3px solid var(--b-accent); }
+.ap-block.heading input { font-weight: 700; }
+.ap-block textarea, .ap-block input { width: 100%; }
+.ap-block-tag {
+  width: 30px; height: 30px; border-radius: 8px;
+  display: grid; place-items: center;
+  font-weight: 700; font-size: 14px;
+  color: var(--b-accent); background: var(--b-accent-soft);
+}
+
+/* ---- small controls ---- */
+.ap-tools { display: flex; gap: 4px; }
+.ap-tools.col { flex-direction: column; }
+.ap-tools button, .ap-mini {
+  width: 28px; height: 28px; padding: 0;
+  border: 1px solid var(--b-line); background: #fff; border-radius: 8px;
+  cursor: pointer; font-size: 13px; color: var(--b-muted);
+}
+.ap-tools button:disabled { opacity: 0.35; cursor: default; }
+.ap-tools button:not(:disabled):hover, .ap-mini:hover { border-color: var(--b-accent); color: var(--b-accent); }
+.ap-tools .danger:hover, .ap-mini:hover { border-color: var(--b-danger); color: var(--b-danger); }
+
+.ap-btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.ap-ghost, .ap-link {
+  border: 1px dashed var(--b-accent); color: var(--b-accent);
+  background: transparent; border-radius: 10px; padding: 8px 14px;
+  cursor: pointer; font: inherit; font-weight: 600;
+}
+.ap-link { border: 0; padding: 4px 0; text-align: left; }
+.ap-ghost:hover { background: var(--b-accent-soft); }
+
+/* ---- question groups ---- */
+.ap-group {
+  border: 1px solid var(--b-line);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: #fcfcfe;
+}
+.ap-group-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.ap-group-head strong { display: block; font-size: 16px; }
+.ap-group-head small { color: var(--b-muted); }
+
+.ap-qlist { display: grid; gap: 12px; margin-top: 14px; }
+.ap-qrow { display: grid; grid-template-columns: 38px 1fr auto; gap: 10px; align-items: start; }
+.ap-qnum {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--b-accent); color: #fff; font-weight: 700; font-size: 13px;
+}
+.ap-qbody { display: grid; gap: 8px; }
+.ap-qbody input, .ap-qbody textarea, .ap-qbody select { width: 100%; }
+
+.ap-opt { display: grid; grid-template-columns: 34px 1fr auto; gap: 8px; align-items: center; }
+.ap-radio {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 2px solid var(--b-line); background: #fff; font-weight: 700; cursor: pointer; color: var(--b-muted);
+}
+.ap-radio.on { border-color: #2e9d6a; background: #2e9d6a; color: #fff; }
+
+.ap-seg { display: flex; gap: 6px; flex-wrap: wrap; }
+.ap-seg button {
+  padding: 7px 14px; border-radius: 999px; border: 1px solid var(--b-line);
+  background: #fff; cursor: pointer; font: inherit; font-weight: 600; color: var(--b-muted);
+}
+.ap-seg button.on { background: #2e9d6a; border-color: #2e9d6a; color: #fff; }
+
+.ap-pair { display: grid; grid-template-columns: 1fr 2fr; gap: 8px; }
+.ap-hint-list { display: grid; gap: 4px; font-size: 13px; color: var(--b-muted); }
+.ap-hint-list b { color: var(--b-accent); margin-right: 6px; }
+.ap-empty { color: var(--b-muted); font-size: 14px; margin: 4px 0 12px; }
+
+.ap-add-types { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
+.ap-add-types span { font-weight: 600; margin-right: 4px; }
+.ap-add-types button {
+  padding: 7px 12px; border-radius: 10px; border: 1px solid var(--b-line);
+  background: #fff; cursor: pointer; font: inherit; font-size: 13px;
+}
+.ap-add-types button:hover { border-color: var(--b-accent); color: var(--b-accent); }
+
+.ap-save-all { width: 100%; padding: 16px; font-size: 16px; }
+
+/* ---- preview ---- */
+.ap-preview-passage { max-height: 340px; overflow: auto; font-size: 14px; line-height: 1.6; }
+.ap-preview-passage h4 { margin: 12px 0 4px; font-size: 15px; }
+.ap-preview-passage p { margin: 0 0 8px; }
+.ap-pl {
+  display: inline-grid; place-items: center; width: 20px; height: 20px; margin-right: 6px;
+  border-radius: 5px; background: var(--b-accent-soft); color: var(--b-accent); font-size: 12px;
+}
+.ap-preview-qs { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13px; }
+.ap-preview-qs li { display: flex; gap: 10px; }
+.ap-preview-qs b { min-width: 52px; color: var(--b-accent); }
+
+@media (max-width: 720px) {
+  .ap-row-2, .ap-pair { grid-template-columns: 1fr; }
+}
