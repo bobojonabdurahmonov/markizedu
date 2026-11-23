@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./AdminPanel.css";
+import "./Admin.css";
 
 const ADMIN_USERNAME = "admin";
 const ADMIN_PASSWORD = "12345";
