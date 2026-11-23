@@ -1,26 +1,27 @@
 
 import "./App.css";
 import { Link } from "react-router-dom";
-import api from "./api";
-import { useEffect } from "react";
 
 function App() {
-
   return (
     <div className="landing">
       <header className="navbar">
-        <a href="/" className="logo">
+        <Link to="/" className="logo">
           <span className="logo-icon">E</span>
           <span>englishCentercds</span>
-        </a>
+        </Link>
 
         <div className="nav-buttons">
-          <button className="btn btn-outline"><Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>Login</Link></button>
-          <button className="btn btn-primary"><Link to="/register" style={{ textDecoration: 'none', color: 'inherit' }}>Register</Link></button>
+          <Link to="/login" className="btn btn-outline">
+            Login
+          </Link>
+          <Link to="/register" className="btn btn-primary">
+            Register
+          </Link>
         </div>
       </header>
 
-      <main>
+      <main className="landing-main">
         <section className="hero">
           <span className="eyebrow">
             YOUR IELTS JOURNEY STARTS HERE
@@ -34,27 +35,32 @@ function App() {
 
           <p className="hero-description">
             Practice your skills. Build your confidence.
+            <br />
             Prepare for success.
           </p>
 
-          <button className="btn btn-primary get-started">
-            <Link to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>
-              Get Started <span>→</span>
-            </Link>
-          </button>
+          <Link to="/login" className="btn btn-primary get-started">
+            Get Started <span>→</span>
+          </Link>
         </section>
 
         <section className="features">
           <article className="feature-card">
             <div className="feature-icon">📖</div>
             <h2>Reading</h2>
-            <p>Improve your reading skills with practice tests.</p>
+            <p>
+              Improve your reading skills with structured
+              IELTS practice tests.
+            </p>
           </article>
 
           <article className="feature-card">
             <div className="feature-icon">🎧</div>
             <h2>Listening</h2>
-            <p>Train your listening skills with audio tests.</p>
+            <p>
+              Train your listening skills with realistic
+              audio-based IELTS tests.
+            </p>
           </article>
         </section>
       </main>
