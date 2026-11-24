@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api";
 import "./Auth.css";
@@ -8,22 +7,54 @@ import { saveAuth } from "../auth";
 export default function Register() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [groups, setGroups] = useState([]);
+  const [telegramGroupId, setTelegramGroupId] = useState("");
+  const [groupsLoading, setGroupsLoading] = useState(true);
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
+  // Telegram guruhlarini olish
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const response = await api.get("telegram/groups/");
+        setGroups(response.data);
+
+        // Birinchi guruhni avtomatik tanlash
+        if (response.data.length > 0) {
+          setTelegramGroupId(String(response.data[0].id));
+        }
+      } catch (err) {
+        console.error("Telegram guruhlarini olishda xatolik:", err);
+        setError("Telegram guruhlarini yuklab bo‘lmadi.");
+      } finally {
+        setGroupsLoading(false);
+      }
+    };
+
+    fetchGroups();
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    if (!telegramGroupId) {
+      setError("Telegram guruhini tanlang.");
+      return;
+    }
+
     setLoading(true);
 
-    
     try {
       // Yangi hisob yaratamiz.
       await api.post("auth/register/", {
         username: name.trim(),
         password,
+        telegram_group_id: Number(telegramGroupId),
       });
 
       // Yangi hisobga avtomatik login qilamiz.
@@ -42,7 +73,9 @@ export default function Register() {
       });
 
       saveAuth(tokens, userResponse.data);
+
       navigate("/dashboard", { replace: true });
+
     } catch (err) {
       const data = err.response?.data;
 
@@ -50,15 +83,22 @@ export default function Register() {
         setError("Bu username band. Boshqa nom tanlang.");
       } else if (data?.password) {
         setError(data.password.join(" "));
+      } else if (data?.telegram_group_id) {
+        setError(
+          Array.isArray(data.telegram_group_id)
+            ? data.telegram_group_id.join(" ")
+            : data.telegram_group_id
+        );
       } else if (err.response?.status === 401) {
-        setError("Hisob yaratildi, lekin avtomatik login amalga oshmadi. Login sahifasidan kiring.");
+        setError(
+          "Hisob yaratildi, lekin avtomatik login amalga oshmadi. Login sahifasidan kiring."
+        );
       } else {
         setError("Ro‘yxatdan o‘tishda xatolik yuz berdi.");
       }
     } finally {
       setLoading(false);
     }
-
   };
 
   return (
@@ -69,12 +109,16 @@ export default function Register() {
 
       <section className="auth-card">
         <h1>Create account</h1>
+
         <p className="auth-subtitle">
           Start your IELTS preparation today.
         </p>
 
         <form onSubmit={handleSubmit}>
-          <label htmlFor="register-name">Name</label>
+          <label htmlFor="register-name">
+            Name
+          </label>
+
           <input
             id="register-name"
             type="text"
@@ -85,7 +129,10 @@ export default function Register() {
             required
           />
 
-          <label htmlFor="register-password">Password</label>
+          <label htmlFor="register-password">
+            Password
+          </label>
+
           <input
             id="register-password"
             type="password"
@@ -97,19 +144,61 @@ export default function Register() {
             required
           />
 
-          {error && <p className="auth-error">{error}</p>}
+          <label htmlFor="telegram-group">
+            Telegram group
+          </label>
+
+          {groupsLoading ? (
+            <p className="auth-subtitle">
+              Loading groups...
+            </p>
+          ) : groups.length === 0 ? (
+            <p className="auth-error">
+              Hozircha ro‘yxatdan o‘tish uchun Telegram guruhi mavjud emas.
+            </p>
+          ) : (
+            <select
+              id="telegram-group"
+              value={telegramGroupId}
+              onChange={(e) => setTelegramGroupId(e.target.value)}
+              required
+            >
+              <option value="" disabled>
+                Select Telegram group
+              </option>
+
+              {groups.map((group) => (
+                <option key={group.id} value={group.id}>
+                  {group.name}
+                </option>
+              ))}
+            </select>
+          )}
+
+          {error && (
+            <p className="auth-error">
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"
             className="auth-submit"
-            disabled={loading}
+            disabled={
+              loading ||
+              groupsLoading ||
+              groups.length === 0
+            }
           >
-            {loading ? "Creating account..." : "Create account"}
+            {loading
+              ? "Creating account..."
+              : "Create account"}
           </button>
         </form>
 
         <p className="auth-switch">
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account?{" "}
+          <Link to="/login">Login</Link>
         </p>
       </section>
     </main>
