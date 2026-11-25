@@ -14,6 +14,8 @@ import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import AdminPanel from "./pages/AdminPanel";
 import TestPage from "./pages/TestPage";
+import ListeningTestPage from "./pages/ListeningTestPage";
+import WritingTestPage from "./pages/WritingTestPage";
 
 function HomeRedirect() {
   const access = localStorage.getItem("access");
@@ -56,6 +58,17 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
+  },{
+  path:"/listening/tests/:testId",
+  element: <ListeningTestPage />,
+  },
+  {
+    path:"/listening/:testId/full",
+    element: <ListeningTestPage />,
+  },
+  {
+    path:"/writing/:testId",
+    element: <WritingTestPage />,
   },
 ]);
 
