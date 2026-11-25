@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 import "./AdminPanel.css";
+import ListeningAdmin from "./ListeningAdmin";
+import WritingAdmin from "./WritingAdmin";
 
 const PASSAGE_TYPES = [
   { id: "general", title: "General Interest", description: "Kundalik hayot, e'lonlar, umumiy mavzular", icon: "🌍" },
@@ -216,6 +218,7 @@ function Shell({ active, onNav, onLogout, theme, onTheme, children }) {
     { id: "", icon: "◧", label: "Bosh sahifa" },
     { id: "reading", icon: "▤", label: "Reading" },
     { id: "listening", icon: "♪", label: "Listening" },
+    { id: "writing", icon: "✍", label: "Writing" },
   ];
   return (
     <div className="ap-shell">
@@ -877,6 +880,14 @@ export default function AdminPanel() {
             <h2>Listening</h2>
             <p>Audio va savollar (tez orada)</p>
           </button>
+          <button
+            className="ap-home-card"
+            onClick={() => setSection("writing")}
+          >
+            <span className="ap-home-icon">✍️</span>
+            <h2>Writing</h2>
+            <p>Part 1 — Map, Graph va Process</p>
+          </button>
         </div>
       </main>
     );
@@ -884,12 +895,13 @@ export default function AdminPanel() {
 
   if (section === "listening") {
     return shell(
-      <main className="ap-page">
-        <header className="ap-pagehead">
-          <h1>Listening</h1>
-          <p>Listening uchun alohida audio va savollar backend API modeli kerak. Model tayyor bo‘lgach, shu yerda boshqariladi.</p>
-        </header>
-      </main>
+      <ListeningAdmin />
+    );
+  }
+
+  if (section === "writing") {
+    return shell(
+      <WritingAdmin />
     );
   }
 

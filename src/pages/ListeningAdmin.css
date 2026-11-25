@@ -1,0 +1,1390 @@
+/* =========================================================
+   LISTENING ADMIN
+========================================================= */
+
+.lap-page {
+  min-height: 100%;
+  padding: 30px;
+  color: #172033;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.lap-page-head,
+.lap-editor-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.lap-page-head h1,
+.lap-editor-head h1 {
+  margin: 4px 0 8px;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+}
+
+.lap-page-head p {
+  margin: 0;
+  color: #758198;
+  font-size: 14px;
+}
+
+.lap-eyebrow {
+  color: #5570d8;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.7px;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.lap-primary-btn,
+.lap-secondary-btn,
+.lap-edit-btn,
+.lap-delete-btn,
+.lap-add-btn,
+.lap-small-add {
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.lap-primary-btn {
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 10px;
+  background: #1d4ed8;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  box-shadow: 0 8px 22px rgba(29, 78, 216, 0.16);
+}
+
+.lap-primary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(29, 78, 216, 0.22);
+}
+
+.lap-primary-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.lap-primary-btn span {
+  margin-right: 6px;
+}
+
+.lap-secondary-btn {
+  min-height: 42px;
+  padding: 0 18px;
+  border: 1px solid #dbe2ee;
+  border-radius: 10px;
+  background: #fff;
+  color: #3d4a60;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.lap-secondary-btn:hover {
+  background: #f6f8fc;
+}
+
+.lap-edit-btn {
+  flex: 1;
+  min-height: 38px;
+  border-radius: 9px;
+  background: #eef3ff;
+  color: #2452cf;
+  font-weight: 800;
+}
+
+.lap-delete-btn {
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 9px;
+  background: #fff0f0;
+  color: #d63838;
+  font-weight: 800;
+}
+
+.lap-back-btn {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #dce3ef;
+  border-radius: 11px;
+  background: #fff;
+  color: #43516a;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.lap-add-btn {
+  min-height: 38px;
+  padding: 0 15px;
+  border-radius: 9px;
+  background: #eaf0ff;
+  color: #2855d2;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.lap-small-add {
+  min-height: 34px;
+  padding: 0 13px;
+  border-radius: 8px;
+  background: #edf3ff;
+  color: #2755d1;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   ALERT
+========================================================= */
+
+.lap-alert {
+  margin-bottom: 20px;
+  padding: 13px 16px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.lap-alert.error {
+  border: 1px solid #ffcaca;
+  background: #fff4f4;
+  color: #b42323;
+}
+
+.lap-alert.success {
+  border: 1px solid #c9ebd5;
+  background: #f1fff5;
+  color: #16723a;
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.lap-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.lap-search {
+  width: 100%;
+  max-width: 400px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 13px;
+  border: 1px solid #dce3ef;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.lap-search span {
+  color: #8792a8;
+  font-size: 19px;
+}
+
+.lap-search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  color: #172033;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.lap-count {
+  color: #7c879c;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   TEST GRID
+========================================================= */
+
+.lap-test-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.lap-test-card {
+  min-height: 220px;
+  padding: 20px;
+  border: 1px solid #e3e8f1;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow:
+    0 8px 30px rgba(29, 42, 70, 0.04);
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.lap-test-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 15px 40px rgba(29, 42, 70, 0.08);
+}
+
+.lap-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 17px;
+}
+
+.lap-audio-icon {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+  background: #edf3ff;
+  font-size: 21px;
+}
+
+.lap-status {
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.lap-status.published {
+  background: #e9f9ef;
+  color: #168344;
+}
+
+.lap-status.draft {
+  background: #fff6df;
+  color: #9a6b00;
+}
+
+.lap-test-card h3 {
+  margin: 0 0 7px;
+  color: #182238;
+  font-size: 16px;
+  font-weight: 850;
+}
+
+.lap-test-card p {
+  min-height: 35px;
+  margin: 0 0 18px;
+  color: #778298;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.lap-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+  color: #7b879c;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.lap-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+
+/* =========================================================
+   EMPTY / LOADING
+========================================================= */
+
+.lap-loading,
+.lap-empty {
+  min-height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 1px dashed #d8dfeb;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.lap-spinner {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 14px;
+  border: 3px solid #e7ecf5;
+  border-top-color: #2855d1;
+  border-radius: 50%;
+  animation: lap-spin 0.8s linear infinite;
+}
+
+@keyframes lap-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.lap-loading p,
+.lap-empty p {
+  margin: 0 0 16px;
+  color: #8490a4;
+  font-size: 12px;
+}
+
+.lap-empty-icon {
+  width: 62px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  border-radius: 18px;
+  background: #edf3ff;
+  font-size: 26px;
+}
+
+.lap-empty h2 {
+  margin: 0 0 7px;
+  color: #1b263d;
+  font-size: 17px;
+}
+
+.lap-empty p {
+  margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   EDITOR
+========================================================= */
+
+.lap-editor-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.lap-editor-actions {
+  display: flex;
+  gap: 9px;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.lap-card {
+  border: 1px solid #e1e7f0;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow:
+    0 8px 30px rgba(29, 42, 70, 0.035);
+}
+
+.lap-editor-grid {
+  display: grid;
+  grid-template-columns:
+    1.3fr 0.7fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.lap-card-header {
+  min-height: 77px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 21px 22px;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.lap-card-header > div:first-child > span {
+  color: #8792a8;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.4px;
+}
+
+.lap-card-header h2 {
+  margin: 5px 0 0;
+  color: #1b263d;
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.lap-muted {
+  margin: 5px 0 0;
+  color: #8590a4;
+  font-size: 11px;
+}
+
+.lap-step {
+  width: 31px;
+  height: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: #edf3ff;
+  color: #3158ce;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.lap-form-grid {
+  display: grid;
+  grid-template-columns:
+    1fr 1fr;
+  gap: 16px;
+  padding: 22px;
+}
+
+.lap-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.lap-field.full {
+  grid-column: 1 / -1;
+}
+
+.lap-field label,
+.lap-options-header label {
+  color: #536077;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.lap-field input,
+.lap-field textarea,
+.lap-field select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #dce3ed;
+  border-radius: 9px;
+  outline: none;
+  background: #fbfcfe;
+  color: #202c43;
+  font-family: inherit;
+  font-size: 12px;
+  transition:
+    border 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.lap-field input,
+.lap-field select {
+  min-height: 41px;
+  padding: 0 11px;
+}
+
+.lap-field textarea {
+  padding: 11px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.lap-field input:focus,
+.lap-field textarea:focus,
+.lap-field select:focus {
+  border-color: #7c98e7;
+  box-shadow:
+    0 0 0 3px rgba(65, 95, 205, 0.08);
+}
+
+.lap-readonly-field {
+  min-height: 41px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid #e0e6ef;
+  border-radius: 9px;
+  background: #f6f8fc;
+}
+
+.lap-readonly-field strong {
+  font-size: 15px;
+}
+
+.lap-readonly-field span {
+  color: #7f8a9e;
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   SWITCH
+========================================================= */
+
+.lap-switch-row {
+  min-height: 41px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  color: #526078;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.lap-switch-row input {
+  display: none;
+}
+
+.lap-switch {
+  width: 39px;
+  height: 22px;
+  position: relative;
+  border-radius: 99px;
+  background: #d7deea;
+  transition: 0.2s ease;
+}
+
+.lap-switch::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.lap-switch-row input:checked + .lap-switch {
+  background: #2855d1;
+}
+
+.lap-switch-row input:checked + .lap-switch::after {
+  left: 20px;
+}
+
+
+/* =========================================================
+   AUDIO
+========================================================= */
+
+.lap-audio-card {
+  overflow: hidden;
+}
+
+.lap-audio-box {
+  display: flex;
+  gap: 15px;
+  margin: 22px;
+  padding: 16px;
+  border: 1px solid #dfe7f5;
+  border-radius: 12px;
+  background: #f7f9fd;
+}
+
+.lap-big-audio-icon {
+  width: 47px;
+  height: 47px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+  background: #e9efff;
+  font-size: 22px;
+}
+
+.lap-audio-info {
+  min-width: 0;
+}
+
+.lap-audio-info strong {
+  display: block;
+  color: #202d45;
+  font-size: 12px;
+}
+
+.lap-audio-info p {
+  margin: 5px 0 10px;
+  color: #7d889c;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.lap-audio-info audio {
+  width: 100%;
+  max-width: 100%;
+}
+
+.lap-upload {
+  min-height: 86px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 0 22px 22px;
+  padding: 12px 14px;
+  border: 1px dashed #9eb0dd;
+  border-radius: 12px;
+  background: #fafbff;
+  cursor: pointer;
+}
+
+.lap-upload input {
+  display: none;
+}
+
+.lap-upload-icon {
+  width: 39px;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #edf3ff;
+  color: #3158ce;
+  font-size: 19px;
+  font-weight: 900;
+}
+
+.lap-upload strong {
+  display: block;
+  color: #2b3750;
+  font-size: 11px;
+}
+
+.lap-upload span {
+  display: block;
+  margin-top: 4px;
+  color: #8791a4;
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.lap-sections-card {
+  overflow: hidden;
+}
+
+.lap-summary {
+  display: flex;
+  gap: 10px;
+}
+
+.lap-summary > div {
+  min-width: 70px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  background: #f5f7fb;
+  text-align: center;
+}
+
+.lap-summary strong {
+  display: block;
+  color: #26334d;
+  font-size: 16px;
+}
+
+.lap-summary span {
+  display: block;
+  margin-top: 2px;
+  color: #8791a4;
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   SECTION TABS
+========================================================= */
+
+.lap-section-tabs {
+  display: grid;
+  grid-template-columns:
+    repeat(4, 1fr);
+  gap: 8px;
+  padding: 18px 22px;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.lap-section-tab {
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #e2e7ef;
+  border-radius: 11px;
+  background: #fafbfc;
+  cursor: pointer;
+  text-align: left;
+  padding: 9px;
+}
+
+.lap-section-tab.active {
+  border-color: #5575db;
+  background: #eef3ff;
+  box-shadow:
+    0 0 0 2px rgba(85, 117, 219, 0.08);
+}
+
+.lap-tab-number {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: 9px;
+  background: #e9edf5;
+  color: #536077;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.lap-section-tab.active .lap-tab-number {
+  background: #3158ce;
+  color: #fff;
+}
+
+.lap-tab-content strong {
+  display: block;
+  color: #293650;
+  font-size: 11px;
+}
+
+.lap-tab-content small {
+  display: block;
+  margin-top: 4px;
+  color: #8a94a6;
+  font-size: 8px;
+}
+
+
+/* =========================================================
+   SECTION EDITOR
+========================================================= */
+
+.lap-section-editor {
+  padding: 22px;
+}
+
+.lap-section-info {
+  display: grid;
+  grid-template-columns:
+    70px 1fr;
+  gap: 18px;
+  padding: 17px;
+  border: 1px solid #e4e9f1;
+  border-radius: 12px;
+  background: #fafbfe;
+}
+
+.lap-section-number-large {
+  width: 61px;
+  height: 61px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: #3158ce;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.lap-section-fields {
+  display: grid;
+  grid-template-columns:
+    1fr 1fr;
+  gap: 15px;
+}
+
+
+/* =========================================================
+   GROUPS
+========================================================= */
+
+.lap-groups-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin: 25px 0 13px;
+}
+
+.lap-groups-header span,
+.lap-questions-header span {
+  color: #8791a4;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.3px;
+}
+
+.lap-groups-header h3 {
+  margin: 4px 0 0;
+  color: #26334d;
+  font-size: 15px;
+}
+
+.lap-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.lap-group-card {
+  overflow: hidden;
+  border: 1px solid #dfe5ee;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.lap-group-top {
+  min-height: 65px;
+  display: grid;
+  grid-template-columns:
+    38px minmax(160px, 1fr) minmax(190px, 260px) 38px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e9edf3;
+  background: #f8faff;
+}
+
+.lap-group-number {
+  width: 33px;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: #e9efff;
+  color: #3158ce;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.lap-group-title input,
+.lap-group-type select {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 37px;
+  border: 1px solid #dce3ed;
+  border-radius: 8px;
+  background: #fff;
+  outline: 0;
+  padding: 0 10px;
+  color: #25324b;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.lap-group-title span {
+  display: block;
+  margin-top: 4px;
+  color: #8a94a7;
+  font-size: 8px;
+}
+
+.lap-icon-delete {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: #fff0f0;
+  cursor: pointer;
+}
+
+.lap-group-instructions {
+  padding: 15px 15px 0;
+}
+
+
+/* =========================================================
+   QUESTIONS
+========================================================= */
+
+.lap-questions-header {
+  min-height: 49px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 15px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  background: #f6f8fc;
+}
+
+.lap-questions-header > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lap-questions-header strong {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: #e7edff;
+  color: #3158ce;
+  font-size: 9px;
+}
+
+.lap-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 0 15px 15px;
+}
+
+.lap-question-card {
+  border: 1px solid #e1e6ef;
+  border-radius: 11px;
+  background: #fff;
+}
+
+.lap-question-head {
+  min-height: 51px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-bottom: 1px solid #edf0f5;
+  background: #fbfcfe;
+}
+
+.lap-question-num {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #172033;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.lap-question-head span {
+  display: block;
+  color: #8892a5;
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.lap-question-head strong {
+  display: block;
+  margin-top: 3px;
+  color: #37445d;
+  font-size: 9px;
+}
+
+.lap-question-delete {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: #d43a3a;
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.lap-question-body {
+  display: grid;
+  grid-template-columns:
+    1fr 1fr;
+  gap: 14px;
+  padding: 15px;
+}
+
+
+/* =========================================================
+   OPTIONS
+========================================================= */
+
+.lap-options-area {
+  grid-column: 1 / -1;
+  padding: 12px;
+  border: 1px solid #e4e9f1;
+  border-radius: 9px;
+  background: #fafbfe;
+}
+
+.lap-options-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 9px;
+}
+
+.lap-options-header button {
+  border: 0;
+  background: transparent;
+  color: #2855d1;
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.lap-options {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.lap-option-row {
+  display: grid;
+  grid-template-columns:
+    27px 1fr 30px;
+  align-items: center;
+  gap: 7px;
+}
+
+.lap-option-row > span {
+  width: 27px;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: #eaf0ff;
+  color: #3158ce;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.lap-option-row input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 34px;
+  border: 1px solid #dce3ed;
+  border-radius: 8px;
+  outline: 0;
+  padding: 0 9px;
+  font-family: inherit;
+  font-size: 10px;
+}
+
+.lap-option-row button {
+  width: 29px;
+  height: 29px;
+  border: 0;
+  border-radius: 7px;
+  background: #fff0f0;
+  color: #c93030;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.lap-no-options {
+  padding: 10px;
+  border-radius: 7px;
+  background: #fff;
+  color: #919bad;
+  font-size: 9px;
+  text-align: center;
+}
+
+
+/* =========================================================
+   ANSWER
+========================================================= */
+
+.lap-answer-grid {
+  display: grid;
+  grid-template-columns:
+    1fr 120px;
+  gap: 12px;
+}
+
+.lap-field small {
+  color: #8a94a7;
+  font-size: 8px;
+}
+
+.lap-field small b {
+  color: #526078;
+}
+
+
+/* =========================================================
+   NO GROUP
+========================================================= */
+
+.lap-no-groups {
+  padding: 55px 20px;
+  border: 1px dashed #dce3ef;
+  border-radius: 12px;
+  background: #fafbfe;
+  text-align: center;
+}
+
+.lap-no-groups > div:first-child {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  border-radius: 13px;
+  background: #edf3ff;
+  color: #3158ce;
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.lap-no-groups h3 {
+  margin: 0 0 5px;
+  color: #293650;
+  font-size: 14px;
+}
+
+.lap-no-groups p {
+  margin: 0 0 15px;
+  color: #8791a4;
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   BOTTOM SAVE
+========================================================= */
+
+.lap-bottom-save {
+  position: sticky;
+  bottom: 15px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 18px;
+  padding: 12px 15px;
+  border: 1px solid #dfe5ee;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 14px 40px rgba(25, 40, 70, 0.13);
+  backdrop-filter: blur(12px);
+}
+
+.lap-bottom-save > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.lap-bottom-save strong {
+  color: #1c2943;
+  font-size: 16px;
+}
+
+.lap-bottom-save span {
+  color: #8791a4;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.lap-bottom-save > div:last-child {
+  display: flex;
+  gap: 8px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+  .lap-test-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .lap-editor-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 850px) {
+  .lap-page {
+    padding: 20px;
+  }
+
+  .lap-page-head,
+  .lap-editor-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .lap-editor-actions {
+    width: 100%;
+  }
+
+  .lap-editor-actions button {
+    flex: 1;
+  }
+
+  .lap-section-tabs {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .lap-section-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .lap-group-top {
+    grid-template-columns:
+      38px 1fr 38px;
+  }
+
+  .lap-group-type {
+    grid-column: 2 / 3;
+  }
+
+  .lap-group-top .lap-icon-delete {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .lap-question-body {
+    grid-template-columns: 1fr;
+  }
+
+  .lap-answer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .lap-page {
+    padding: 14px;
+  }
+
+  .lap-page-head h1,
+  .lap-editor-head h1 {
+    font-size: 23px;
+  }
+
+  .lap-test-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lap-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .lap-search {
+    max-width: none;
+  }
+
+  .lap-form-grid {
+    grid-template-columns: 1fr;
+    padding: 15px;
+  }
+
+  .lap-field.full {
+    grid-column: auto;
+  }
+
+  .lap-card-header {
+    padding: 17px;
+  }
+
+  .lap-summary {
+    display: none;
+  }
+
+  .lap-section-tabs {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .lap-section-editor {
+    padding: 14px;
+  }
+
+  .lap-section-info {
+    grid-template-columns: 1fr;
+  }
+
+  .lap-section-number-large {
+    width: 50px;
+    height: 50px;
+  }
+
+  .lap-groups-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .lap-group-top {
+    grid-template-columns:
+      34px 1fr 34px;
+  }
+
+  .lap-question-head {
+    padding: 8px;
+  }
+
+  .lap-question-body {
+    padding: 10px;
+  }
+
+  .lap-bottom-save {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .lap-bottom-save > div:last-child {
+    width: 100%;
+  }
+
+  .lap-bottom-save button {
+    flex: 1;
+  }
+}

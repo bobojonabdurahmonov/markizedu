@@ -17,6 +17,13 @@ const listeningCategories = [
   { value: "full", label: "Full Test" },
 ];
 
+const writingCategories = [
+  { value: "", label: "-" },
+  { value: "map", label: "Map" },
+  { value: "graph", label: "Graph" },
+  { value: "process", label: "Process" },
+];
+
 function getList(data) {
   if (Array.isArray(data)) return data;
   if (Array.isArray(data?.results)) return data.results;
@@ -109,36 +116,37 @@ export default function Dashboard() {
 
   const [readingTests, setReadingTests] = useState([]);
   const [listeningTests, setListeningTests] = useState([]);
+  const [writingTests, setWritingTests] = useState([]);
   const [loadingTests, setLoadingTests] = useState(true);
   const [testsError, setTestsError] = useState("");
 
   useEffect(() => {
-    let cancelled = false;
+      let cancelled = false;
 
-    api
-      .get("auth/me/")
-      .then((response) => {
-        if (!cancelled) {
-          setUser(response.data);
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }
-      })
-      .catch(() => {
-        if (!cancelled) {
-          clearAuth();
-          navigate("/login", { replace: true });
-        }
-      })
-      .finally(() => {
-        if (!cancelled) setChecking(false);
-      });
+      api
+        .get("auth/me/")
+        .then((response) => {
+          if (!cancelled) {
+            setUser(response.data);
+            localStorage.setItem("user", JSON.stringify(response.data));
+          }
+        })
+        .catch(() => {
+          if (!cancelled) {
+            clearAuth();
+            navigate("/login", { replace: true });
+          }
+        })
+        .finally(() => {
+          if (!cancelled) setChecking(false);
+        });
 
-    return () => {
-      cancelled = true;
-    };
-  }, [navigate]);
+      return () => {
+        cancelled = true;
+      };
+    }, [navigate]);
 
-  useEffect(() => {
+    useEffect(() => {
     let cancelled = false;
 
     async function loadTests() {
@@ -146,50 +154,53 @@ export default function Dashboard() {
       setTestsError("");
 
       try {
-        const response = await api.get("reading/tests/");
-
+        const [
+          readingResponse,
+          listeningResponse,
+          writingResponse,
+        ] = await Promise.all([
+          api.get("reading/tests/"),
+          api.get("listening/tests/"),
+          api.get("writing/tests/"),
+        ]);
         if (cancelled) return;
 
-        const data = response.data;
-        const items = Array.isArray(data)
-          ? data
-          : Array.isArray(data?.results)
-          ? data.results
-          : [];
+        const readingData = readingResponse.data;
+        const listeningData = listeningResponse.data;
+        const writingData = writingResponse.data;
 
-        setReadingTests(items);
+        const readingItems = getList(readingData);
+        const listeningItems = getList(listeningData);
+        const writingItems = getList(writingData);
 
-        console.log("Reading API:", response.config.url);
-        console.log("Reading testlar:", data);
-        console.log("Birinchi test:", items[0]);
+        setReadingTests(readingItems);
+        setListeningTests(listeningItems);
+        setWritingTests(writingItems);
 
-        console.log(
-          "Passage soni:",
-          items.map((test) => ({
-            testId: test.id,
-            title: test.title,
-            passage_count: test.passage_count,
-            passages: test.passages?.length,
-            passageNumbers: test.passages?.map((p) => p.number),
-          }))
-        );
+        console.log("Reading testlar:", readingItems);
+        console.log("Listening testlar:", listeningItems);
+        console.log("Writing testlar:", writingItems);
       } catch (error) {
         if (cancelled) return;
 
         console.error(
-          "Reading testlarni yuklash xatosi:",
+          "Testlarni yuklash xatosi:",
           error.response?.status,
           error.response?.data || error.message
         );
 
         setReadingTests([]);
+        setListeningTests([]);
+
         setTestsError(
-          `Reading testlarni yuklab bo‘lmadi. HTTP: ${
+          `Testlarni yuklab bo‘lmadi. HTTP: ${
             error.response?.status || "Network error"
           }`
         );
       } finally {
-        if (!cancelled) setLoadingTests(false);
+        if (!cancelled) {
+          setLoadingTests(false);
+        }
       }
     }
 
@@ -212,21 +223,32 @@ export default function Dashboard() {
   }
 
   const categories =
-    activeType === "Reading" ? readingCategories : listeningCategories;
+    activeType === "Reading"
+      ? readingCategories
+      : activeType === "Listening"
+      ? listeningCategories
+      : writingCategories;
 
   const availableTests =
-    activeType === "Reading" ? readingTests : listeningTests;
+    activeType === "Reading"
+      ? readingTests
+      : activeType === "Listening"
+      ? listeningTests
+      : writingTests;
 
   const filteredTests = useMemo(() => {
     return availableTests
       .filter((test) => test.is_published !== false)
       .filter((test) => {
-        if (activeType === "Listening") {
+        if (activeCategory === "") {
           return true;
         }
 
-        // "-" tanlansa, barcha Reading testlar ko‘rinadi
-        if (activeCategory === "") {
+        if (activeType === "Writing") {
+          return test.test_type === activeCategory;
+        }
+
+        if (activeType === "Listening") {
           return true;
         }
 
@@ -234,6 +256,21 @@ export default function Dashboard() {
         return testCategory === activeCategory;
       })
       .map((test) => {
+        // =========================
+        // WRITING
+        // =========================
+        if (activeType === "Writing") {
+          return {
+            ...test,
+            displayTitle: test.title,
+            questionCount: 1,
+            duration: test.duration_minutes || 20,
+          };
+        }
+
+        // =========================
+        // READING
+        // =========================
         const testCategory = getTestCategory(test);
 
         const passageNumber =
@@ -268,10 +305,15 @@ export default function Dashboard() {
               ? 60
               : 20,
         };
-      });
+      })
   }, [availableTests, activeType, activeCategory]);
   
   function handleStartTest(test) {
+    if (activeType === "Writing") {
+      navigate(`/writing/${test.id}`);
+      return;
+    }
+
     if (activeType === "Reading") {
       const passageCount = Number(test.passage_count);
       const passages = getPassages(test);
@@ -365,6 +407,13 @@ export default function Dashboard() {
             >
               🎧 Listening
             </button>
+
+            <button
+              className={activeType === "Writing" ? "selected" : ""}
+              onClick={() => changeType("Writing")}
+            >
+              ✍️ Writing
+            </button>
           </div>
 
           <select
@@ -380,7 +429,7 @@ export default function Dashboard() {
           </select>
         </div>
 
-        <div className="section-heading">
+        <div className="section-headingd">
           <div>
             <h2>
               {activeType} —{" "}
@@ -406,11 +455,29 @@ export default function Dashboard() {
                 <article className="test-card" key={test.id}>
                   <div className="test-card-top">
                     <div className="test-icon">
-                      {activeType === "Reading" ? "📖" : "🎧"}
+                      <div className="test-icon">
+                        {activeType === "Reading"
+                          ? "📖"
+                          : activeType === "Listening"
+                          ? "🎧"
+                          : "✍️"}
+                      </div>
                     </div>
 
                    <span className="level-badge">
-                      {activeCategory === ""
+                      {activeType === "Writing"
+                        ? activeCategory === ""
+                          ? test.test_type === "map"
+                            ? "Map"
+                            : test.test_type === "graph"
+                            ? "Graph"
+                            : test.test_type === "process"
+                            ? "Process"
+                            : "Writing"
+                          : categories.find(
+                              (category) => category.value === activeCategory
+                            )?.label
+                        : activeCategory === ""
                         ? getTestCategory(test) === "full"
                           ? "Full Test"
                           : getTestCategory(test)?.replace("passage-", "Passage ")
@@ -419,6 +486,15 @@ export default function Dashboard() {
                           )?.label}
                     </span>
                   </div>
+
+                  {activeType === "Writing" && test.image_url && (
+                    <div className="writing-test-image">
+                      <img
+                        src={test.image_url}
+                        alt={test.title}
+                      />
+                    </div>
+                  )}
 
                   <h3>{test.displayTitle || test.title}</h3>
 
