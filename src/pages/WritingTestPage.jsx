@@ -47,6 +47,9 @@ export default function WritingTestPage() {
 
   const [answer, setAnswer] = useState("");
 
+  const [fontSize, setFontSize] = useState(14);
+  const [fontFamily, setFontFamily] = useState("Arial, sans-serif");
+
   const [loading, setLoading] = useState(true);
   const [starting, setStarting] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -1041,34 +1044,83 @@ export default function WritingTestPage() {
         <section className="writing-answer-panel">
 
           <div className="writing-answer-top">
+            <div className="writing-answer-heading">
+              <div>
+                <h3>Your answer</h3>
+                <p>Write your response below.</p>
+              </div>
 
-            <div>
+              {/* TEXT SETTINGS */}
+              <div className="writing-text-settings">
 
-              <h3>
-                Your answer
-              </h3>
+                {/* FONT FAMILY */}
+                <div className="writing-setting">
+                  <label>Font</label>
 
-              <p>
-                Write your response below.
-              </p>
+                  <select
+                    value={fontFamily}
+                    onChange={(event) =>
+                      setFontFamily(event.target.value)
+                    }
+                    disabled={submitting}
+                  >
+                    <option value="Arial, sans-serif">
+                      Arial
+                    </option>
 
+                    <option value="Inter, sans-serif">
+                      Inter
+                    </option>
+
+                    <option value="Georgia, serif">
+                      Georgia
+                    </option>
+
+                    <option value='"Times New Roman", serif'>
+                      Times New Roman
+                    </option>
+
+                    <option value="Verdana, sans-serif">
+                      Verdana
+                    </option>
+
+                    <option value='"JetBrains Mono", monospace'>
+                      JetBrains Mono
+                    </option>
+                  </select>
+                </div>
+
+                {/* FONT SIZE */}
+                <div className="writing-setting">
+                  <label>Size</label>
+
+                  <select
+                    value={fontSize}
+                    onChange={(event) =>
+                      setFontSize(Number(event.target.value))
+                    }
+                    disabled={submitting}
+                  >
+                    <option value={9}>9px</option>
+                    <option value={11}>11px</option>
+                    <option value={13}>13px</option>
+                    <option value={15}>15px</option>
+                    <option value={17}>17px</option>
+                    <option value={19}>19px</option>
+                    <option value={21}>21px</option>
+                    <option value={23}>23px</option>
+                    <option value={24}>24px</option>
+                  </select>
+                </div>
+
+              </div>
             </div>
-
 
             {/* WORD COUNT */}
-
             <div className="writing-word-count">
-
-              <strong>
-                {wordCount}
-              </strong>
-
-              <span>
-                words
-              </span>
-
+              <strong>{wordCount}</strong>
+              <span>words</span>
             </div>
-
           </div>
 
 
@@ -1077,15 +1129,16 @@ export default function WritingTestPage() {
           <textarea
             value={answer}
             onChange={(event) => {
-              setAnswer(
-                event.target.value
-              );
-
+              setAnswer(event.target.value);
               setSubmitError("");
             }}
             placeholder="Write your answer here..."
             disabled={submitting}
             spellCheck={false}
+            style={{
+              fontSize: `${fontSize}px`,
+              fontFamily: fontFamily,
+            }}
           />
 
 
