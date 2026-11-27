@@ -119,6 +119,7 @@ export default function Dashboard() {
   const [writingTests, setWritingTests] = useState([]);
   const [loadingTests, setLoadingTests] = useState(true);
   const [testsError, setTestsError] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
       let cancelled = false;
@@ -354,14 +355,27 @@ export default function Dashboard() {
   if (!user) return null;
 
   return (
-    <div className="dashboard">
+    <div className={`dashboard ${sidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
       <aside className="sidebar">
+        <button
+          className="sidebar-toggle"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label="Toggle menu"
+        >
+          {sidebarOpen ? "‹" : "›"}
+        </button>
+
+        {/* qolgan sidebar */}
         <h2 className="sidebar-logo">
           englishCenter<span>cds</span>
         </h2>
 
-        <button className="sidebar-item active">
-          📚 History
+        <button
+          className="sidebar-item"
+          onClick={() => navigate("/history")}
+        >
+          <span className="sidebar-item-icon">📚</span>
+          <span className="sidebar-item-text">History</span>
         </button>
 
         <div className="sidebar-bottom">

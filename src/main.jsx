@@ -16,7 +16,8 @@ import AdminPanel from "./pages/AdminPanel";
 import TestPage from "./pages/TestPage";
 import ListeningTestPage from "./pages/ListeningTestPage";
 import WritingTestPage from "./pages/WritingTestPage";
-
+import History from "./pages/History";
+import HistoryReview from "./pages/HistoryReview";
 function HomeRedirect() {
   const access = localStorage.getItem("access");
   const refresh = localStorage.getItem("refresh");
@@ -69,6 +70,15 @@ const router = createBrowserRouter([
   {
     path:"/writing/:testId",
     element: <WritingTestPage />,
+  },
+
+  {
+    path: "/history",
+    element: <History />,
+  },
+  {
+    path: "/history/:type/:attemptId",
+    element: <HistoryReview />,
   },
 ]);
 
