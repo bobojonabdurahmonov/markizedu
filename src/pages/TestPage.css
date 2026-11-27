@@ -1043,3 +1043,83 @@
     transition: none;
   }
 }
+
+
+/* IELTS-style inline Sentence Completion */
+.cdi-question-group:has(.sentence-completion-row) {
+  padding: 18px 20px;
+  border: 1px solid #dce3ee;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.sentence-completion-row {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 13px 0;
+  border-bottom: 1px solid #edf0f5;
+  line-height: 1.9;
+}
+
+.sentence-completion-row:last-child {
+  border-bottom: 0;
+}
+
+.sentence-question-number {
+  flex: 0 0 25px;
+  font-weight: 700;
+  color: #2450e8;
+}
+
+.sentence-question-text {
+  min-width: 0;
+  flex: 1;
+  color: inherit;
+  font-size: 15px;
+}
+
+.sentence-inline-input {
+  display: inline-block;
+  width: 145px;
+  max-width: 45%;
+  height: 34px;
+  margin: 0 5px;
+  padding: 4px 9px;
+  vertical-align: middle;
+  text-align: center;
+  font: inherit;
+  line-height: 1.2;
+  color: #172033;
+  background: #fff;
+  border: 1px solid #aeb8c7;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.sentence-inline-input::placeholder {
+  color: #9aa5b5;
+  opacity: 1;
+}
+
+.sentence-inline-input:focus {
+  border-color: #2450e8;
+  box-shadow: 0 0 0 2px rgba(36, 80, 232, .12);
+}
+
+.sentence-inline-input:disabled,
+.sentence-inline-input[readonly] {
+  background: #f5f7fb;
+  cursor: default;
+}
+
+@media (max-width: 600px) {
+  .cdi-question-group:has(.sentence-completion-row) {
+    padding: 12px;
+  }
+
+  .sentence-inline-input {
+    width: 115px;
+  }
+}
