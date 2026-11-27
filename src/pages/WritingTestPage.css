@@ -1021,8 +1021,4 @@
 .writing-setting select:disabled {
   opacity: 0.55;
   cursor: not-allowed;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 0b818f8 (Update dashboard and add test history)
