@@ -1,5 +1,5 @@
 
-import { useEffect, useMemo,useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../api";
 import "./TestPage.css";
@@ -332,6 +332,54 @@ export default function TestPage() {
     return `${String(minutes).padStart(2, "0")}:${String(
       secs
     ).padStart(2, "0")}`;
+  }
+
+
+  // Sentence Completion uchun gap ichida javob maydonini chiqaradi.
+  // Admin prompt ichida {{blank}} yoki kamida 3 ta pastki chiziq (_____) ishlatishi mumkin.
+  function renderSentencePrompt(question) {
+    const prompt = String(question.prompt || "");
+    const blankPattern = /(\{\{blank\}\}|_{3,}|\[blank\])/gi;
+    const parts = prompt.split(blankPattern);
+    const hasBlank = parts.length > 1;
+
+    const answerInput = (
+      <input
+        id={`q-${question.id}`}
+        className="sentence-inline-input"
+        type="text"
+        value={answers[question.id] ?? ""}
+        readOnly={reviewing}
+        disabled={reviewing}
+        aria-label={`Question ${question.number} answer`}
+        placeholder={String(question.number)}
+        onChange={(event) =>
+          setAnswers((prev) => ({
+            ...prev,
+            [question.id]: event.target.value,
+          }))
+        }
+      />
+    );
+
+    if (!hasBlank) {
+      return (
+        <>
+          <span>{prompt} </span>
+          {answerInput}
+        </>
+      );
+    }
+
+    let inserted = false;
+    return parts.map((part, index) => {
+      if (/^(\{\{blank\}\}|_{3,}|\[blank\])$/i.test(part)) {
+        if (inserted) return null;
+        inserted = true;
+        return <React.Fragment key={`blank-${index}`}>{answerInput}</React.Fragment>;
+      }
+      return <React.Fragment key={`text-${index}`}>{part}</React.Fragment>;
+    });
   }
 
   async function submitTest() {
@@ -731,71 +779,85 @@ export default function TestPage() {
                       </p>
                     )}
 
-                    {group.questions.map((question) => (
-                      <div
-                        className="cdi-question"
-                        key={question.id}
-                      >
-                        <label htmlFor={`q-${question.id}`}>
-                          <span className="question-number">
-                            {question.number}.
-                          </span>
-                          <span>{question.prompt}</span>
-                        </label>
+                    {(() => {
+                      const normalizedType = String(group.question_type || "")
+                        .toLowerCase()
+                        .replace(/[\s-]+/g, "_");
+                      const isSentenceCompletion =
+                        normalizedType === "sentence_completion";
 
-                        {question.options?.length > 0 ? (
-                          <select
-                            id={`q-${question.id}`}
-                            value={answers[question.id] ?? ""}
-                            disabled={reviewing}
-                            onChange={(event) =>
-                              setAnswers((prev) => ({
-                                ...prev,
-                                [question.id]: event.target.value,
-                              }))
-                            }
+                      return group.questions.map((question) =>
+                        isSentenceCompletion ? (
+                          <div
+                            className="sentence-completion-row"
+                            id={`q-${question.id}-row`}
+                            key={question.id}
                           >
-                            <option value="">Select your answer</option>
-
-                            {question.options.map((option, index) => {
-                              const value =
-                                typeof option === "string"
-                                  ? option
-                                  : String(
-                                      option.value ?? option.label ?? ""
-                                    );
-
-                              const label =
-                                typeof option === "string"
-                                  ? option
-                                  : String(
-                                      option.label ?? option.value ?? ""
-                                    );
-
-                              return (
-                                <option key={index} value={value}>
-                                  {label}
-                                </option>
-                              );
-                            })}
-                          </select>
+                            <span className="sentence-question-number">
+                              {question.number}.
+                            </span>
+                            <div className="sentence-question-text">
+                              {renderSentencePrompt(question)}
+                            </div>
+                          </div>
                         ) : (
-                          <input
-                            id={`q-${question.id}`}
-                            type="text"
-                            readOnly={reviewing}
-                            value={answers[question.id] ?? ""}
-                            onChange={(event) =>
-                              setAnswers((prev) => ({
-                                ...prev,
-                                [question.id]: event.target.value,
-                              }))
-                            }
-                            placeholder="Type your answer..."
-                          />
-                        )}
-                      </div>
-                    ))}
+                          <div className="cdi-question" key={question.id}>
+                            <label htmlFor={`q-${question.id}`}>
+                              <span className="question-number">
+                                {question.number}.
+                              </span>
+                              <span>{question.prompt}</span>
+                            </label>
+
+                            {question.options?.length > 0 ? (
+                              <select
+                                id={`q-${question.id}`}
+                                value={answers[question.id] ?? ""}
+                                disabled={reviewing}
+                                onChange={(event) =>
+                                  setAnswers((prev) => ({
+                                    ...prev,
+                                    [question.id]: event.target.value,
+                                  }))
+                                }
+                              >
+                                <option value="">Select your answer</option>
+                                {question.options.map((option, index) => {
+                                  const value =
+                                    typeof option === "string"
+                                      ? option
+                                      : String(option.value ?? option.label ?? "");
+                                  const label =
+                                    typeof option === "string"
+                                      ? option
+                                      : String(option.label ?? option.value ?? "");
+
+                                  return (
+                                    <option key={index} value={value}>
+                                      {label}
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            ) : (
+                              <input
+                                id={`q-${question.id}`}
+                                type="text"
+                                readOnly={reviewing}
+                                value={answers[question.id] ?? ""}
+                                onChange={(event) =>
+                                  setAnswers((prev) => ({
+                                    ...prev,
+                                    [question.id]: event.target.value,
+                                  }))
+                                }
+                                placeholder="Type your answer..."
+                              />
+                            )}
+                          </div>
+                        )
+                      );
+                    })()}
                   </section>
                 ))}
               </div>
